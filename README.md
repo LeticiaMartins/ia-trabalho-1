@@ -20,7 +20,7 @@ src/
   avaliacao.py     métricas e matriz de confusão
   experimentos.py  script principal
 resultados/    tabelas e figuras geradas
-relatorio/     relatório em PDF
+relatorio/     relatório em LaTeX (abnTeX2), compila no Overleaf
 ```
 
 ## Como executar

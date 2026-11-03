@@ -1,0 +1,101 @@
+\documentclass[12pt, oneside, a4paper, english, brazil]{abntex2}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage[alf]{abntex2cite}
+
+\graphicspath{{figuras/}}
+
+\titulo{Análise Comparativa de Algoritmos de Classificação}
+\autor{Nome 1 \\ Nome 2 \\ Nome 3}
+\local{Santo André}
+\data{2026}
+\instituicao{%
+  Universidade Federal do ABC
+  \par
+  Centro de Matemática, Computação e Cognição}
+\tipotrabalho{Relatório técnico}
+\preambulo{Trabalho 1 da disciplina de Inteligência Artificial, ministrada pelo Prof. Mateus Coelho Silva.}
+
+\makeatletter
+\hypersetup{
+  pdftitle={\@title},
+  pdfauthor={\@author},
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black
+}
+\makeatother
+
+\begin{document}
+
+\pretextual
+
+\imprimircapa
+\imprimirfolhaderosto
+
+\begin{resumo}
+
+\textbf{Palavras-chave}: .
+\end{resumo}
+
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+\textual
+
+\chapter{Introdução}
+
+\chapter{Referencial Teórico}
+
+\section{Aprendizado de Máquina Supervisionado}
+
+\section{Redes Neurais Artificiais}
+
+\section{Random Forest}
+
+\section{Métricas de Avaliação}
+
+\chapter{Metodologia}
+
+\section{Bases de Dados}
+
+\section{Pré-processamento}
+
+\section{Algoritmos e Hiperparâmetros}
+
+\section{Avaliação}
+
+\chapter{Resultados}
+
+\section{Base 1}
+
+\section{Base 2}
+
+\section{Discussão}
+
+\chapter{Conclusão}
+
+\chapter{Transparência no Uso de IA Generativa}
+
+\postextual
+
+\bibliography{referencias}
+
+\end{document}
