@@ -1,4 +1,4 @@
-\documentclass[12pt, oneside, a4paper, english, brazil]{abntex2}
+\documentclass[12pt, oneside, a4paper, english, brazilian]{abntex2}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -33,6 +33,25 @@
   urlcolor=black
 }
 \makeatother
+
+% Capa conforme NBR 14724: instituição, autores, título, local e ano
+\renewcommand{\imprimircapa}{%
+  \begin{capa}%
+    \center
+    {\ABNTEXchapterfont\large UNIVERSIDADE FEDERAL DO ABC\par
+    Centro de Matemática, Computação e Cognição\par}
+    \vspace*{1.5cm}
+    {\ABNTEXchapterfont\large\imprimirautor}
+    \vfill
+    \begin{center}
+      \ABNTEXchapterfont\bfseries\LARGE\imprimirtitulo
+    \end{center}
+    \vfill
+    {\ABNTEXchapterfont\large\imprimirlocal\par
+    \imprimirdata\par}
+    \vspace*{1cm}
+  \end{capa}
+}
 
 \begin{document}
 

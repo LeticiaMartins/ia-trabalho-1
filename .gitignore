@@ -12,3 +12,18 @@ data/*.csv
 !data/exemplo.csv
 
 *.zip
+
+# LaTeX
+relatorio/*.aux
+relatorio/*.log
+relatorio/*.out
+relatorio/*.toc
+relatorio/*.lof
+relatorio/*.lot
+relatorio/*.bbl
+relatorio/*.blg
+relatorio/*.brf
+relatorio/*.idx
+relatorio/*.fls
+relatorio/*.fdb_latexmk
+relatorio/*.synctex.gz

@@ -38,6 +38,13 @@ python src/experimentos.py
 As bases precisam estar em `data/` antes de rodar (instruções em `data/README.md`).
 Os resultados são salvos em `resultados/`.
 
+Para gerar o PDF do relatório (precisa de TeX Live com abnTeX2, ou usar o Overleaf):
+
+```bash
+cd relatorio
+latexmk -pdf relatorio.tex
+```
+
 ## Bibliotecas
 
 Só usamos as permitidas no enunciado: numpy, pandas, scikit-learn, matplotlib e seaborn.
