@@ -1,0 +1,13 @@
+\begin{tabular}{llp{8cm}}
+\toprule
+Base & Modelo & Melhor combinação \\
+\midrule
+Wine Quality & MLP & \texttt{activation = tanh, alpha = 0.01, hidden\_layer\_sizes = (64, 32), learning\_rate\_init = 0.001} \\
+\addlinespace
+Wine Quality & Random Forest & \texttt{max\_depth = None, n\_estimators = 100} \\
+\addlinespace
+Palmer Penguins & MLP & \texttt{activation = tanh, alpha = 0.0001, hidden\_layer\_sizes = (16,), learning\_rate\_init = 0.001} \\
+\addlinespace
+Palmer Penguins & Random Forest & \texttt{max\_depth = None, n\_estimators = 300} \\
+\bottomrule
+\end{tabular}

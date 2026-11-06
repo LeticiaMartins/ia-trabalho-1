@@ -6,11 +6,12 @@
 \usepackage{indentfirst}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{float}
 \usepackage{amsmath}
 \usepackage{microtype}
 \usepackage[alf]{abntex2cite}
 
-\graphicspath{{figuras/}}
+\graphicspath{{figuras/}{../resultados/}}
 
 \titulo{Análise Comparativa de Algoritmos de Classificação}
 \autor{Nome 1 \\ Nome 2 \\ Nome 3}
@@ -119,13 +120,91 @@ Para a Rede Neural, os atributos foram padronizados para média zero e desvio pa
 
 \section{Algoritmos e Hiperparâmetros}
 
+\begin{table}[htb]
+  \centering
+  \caption{Hiperparâmetros testados para cada algoritmo}
+  \label{tab:hiperparametros-testados}
+  \begin{tabular}{lll}
+    \toprule
+    Algoritmo & Hiperparâmetro & Valores testados \\
+    \midrule
+    MLP & Camadas ocultas & (16), (64), (64, 32) \\
+        & Função de ativação & ReLU, tanh \\
+        & Taxa de aprendizado inicial & 0,001; 0,01 \\
+        & Regularização L2 ($\alpha$) & 0,0001; 0,01 \\
+    \midrule
+    Random Forest & Número de árvores & 100, 300 \\
+                  & Profundidade máxima & 10, 20, sem limite \\
+    \bottomrule
+  \end{tabular}
+  \fonte{Elaborado pelos autores.}
+\end{table}
+
 \section{Avaliação}
 
 \chapter{Resultados}
 
-\section{Base 1}
+\begin{table}[H]
+  \centering
+  \caption{Desempenho dos modelos no conjunto de teste}
+  \label{tab:desempenho}
+  \input{tabelas/desempenho.tex}
+  \legend{Precisão, revocação e F1 calculados pela média macro entre as classes.}
+  \fonte{Elaborado pelos autores.}
+\end{table}
 
-\section{Base 2}
+\begin{table}[H]
+  \centering
+  \caption{Melhor combinação de hiperparâmetros encontrada na validação cruzada}
+  \label{tab:melhores-hiperparametros}
+  \small
+  \input{tabelas/melhores_hiperparametros.tex}
+  \fonte{Elaborado pelos autores.}
+\end{table}
+
+\section{Wine Quality}
+
+\begin{figure}[H]
+  \centering
+  \caption{Matrizes de confusão no conjunto de teste da base Wine Quality}
+  \label{fig:matriz-vinhos}
+  \includegraphics[width=0.48\textwidth]{matriz_vinhos_MLP.png}
+  \hfill
+  \includegraphics[width=0.48\textwidth]{matriz_vinhos_RandomForest.png}
+  \legend{(a) MLP; (b) Random Forest.}
+  \fonte{Elaborado pelos autores.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Efeito dos hiperparâmetros da MLP na base Wine Quality}
+  \label{fig:hiperparametros-vinhos}
+  \includegraphics[width=\textwidth]{mlp_hiperparametros_vinhos.png}
+  \legend{Cada ponto é a média do F1 na validação cruzada sobre as combinações dos demais hiperparâmetros.}
+  \fonte{Elaborado pelos autores.}
+\end{figure}
+
+\section{Palmer Penguins}
+
+\begin{figure}[H]
+  \centering
+  \caption{Matrizes de confusão no conjunto de teste da base Palmer Penguins}
+  \label{fig:matriz-pinguins}
+  \includegraphics[width=0.48\textwidth]{matriz_pinguins_MLP.png}
+  \hfill
+  \includegraphics[width=0.48\textwidth]{matriz_pinguins_RandomForest.png}
+  \legend{(a) MLP; (b) Random Forest.}
+  \fonte{Elaborado pelos autores.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Efeito dos hiperparâmetros da MLP na base Palmer Penguins}
+  \label{fig:hiperparametros-pinguins}
+  \includegraphics[width=\textwidth]{mlp_hiperparametros_pinguins.png}
+  \legend{Cada ponto é a média do F1 na validação cruzada sobre as combinações dos demais hiperparâmetros.}
+  \fonte{Elaborado pelos autores.}
+\end{figure}
 
 \section{Discussão}
 
