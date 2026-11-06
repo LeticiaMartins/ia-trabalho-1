@@ -7,7 +7,7 @@ Comparamos uma Rede Neural (MLP) com um segundo classificador em duas bases de d
 ## Integrantes
 
 - Leticia Martins
-- 
+- Ana Clara de Lima Saraiva RA:11202131234
 - 
 
 ## Estrutura
