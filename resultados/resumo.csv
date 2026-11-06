@@ -1,0 +1,5 @@
+base,modelo,acuracia,precisao,recall,f1,melhores_hiperparametros
+vinhos,MLP,0.9969,0.9948,0.9969,0.9959,"{'mlp__activation': 'tanh', 'mlp__alpha': 0.01, 'mlp__hidden_layer_sizes': (64, 32), 'mlp__learning_rate_init': 0.001}"
+vinhos,RandomForest,0.9977,0.9974,0.9964,0.9969,"{'max_depth': None, 'n_estimators': 100}"
+pinguins,MLP,0.9851,0.9778,0.9885,0.9827,"{'mlp__activation': 'tanh', 'mlp__alpha': 0.0001, 'mlp__hidden_layer_sizes': (16,), 'mlp__learning_rate_init': 0.001}"
+pinguins,RandomForest,1.0,1.0,1.0,1.0,"{'max_depth': None, 'n_estimators': 300}"

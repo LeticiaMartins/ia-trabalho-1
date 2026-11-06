@@ -35,8 +35,13 @@ pip install -r requirements.txt
 python src/experimentos.py
 ```
 
-As bases precisam estar em `data/` antes de rodar (instruções em `data/README.md`).
-Os resultados são salvos em `resultados/`.
+As bases já estão em `data/` (fontes em `data/README.md`). A execução leva alguns minutos.
+
+Em `resultados/` são gerados:
+
+- `resumo.csv`: métricas no conjunto de teste e melhores hiperparâmetros de cada modelo
+- `hiperparametros_<base>_<modelo>.csv`: F1 médio na validação cruzada para cada combinação testada
+- `matriz_<base>_<modelo>.png`: matrizes de confusão
 
 Para gerar o PDF do relatório (precisa de TeX Live com abnTeX2, ou usar o Overleaf):
 

@@ -3,60 +3,54 @@ from pathlib import Path
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
 
-from dados import carregar_csv, dividir
-from modelos import mlp, segundo_modelo
-from avaliacao import metricas, salvar_matriz_confusao
+from dados import carregar_vinhos, carregar_pinguins, dividir
+from modelos import criar_mlp, criar_random_forest
+from avaliacao import calcular_metricas, salvar_matriz_confusao
 
-RAIZ = Path(__file__).resolve().parent.parent
-DATA = RAIZ / "data"
-RESULTADOS = RAIZ / "resultados"
+PASTA_DADOS = Path(__file__).parent.parent / "data"
+PASTA_RESULTADOS = Path(__file__).parent.parent / "resultados"
 
-# nome da base -> (arquivo, coluna alvo)
-# TODO: preencher depois de escolher as bases
-BASES = {
-    "base1": ("base1.csv", "target"),
-    "base2": ("base2.csv", "target"),
-}
+bases = [
+    ("vinhos", carregar_vinhos),
+    ("pinguins", carregar_pinguins),
+]
 
-MODELOS = {
-    "MLP": mlp,
-    "RandomForest": segundo_modelo,
-}
+modelos = [
+    ("MLP", criar_mlp),
+    ("RandomForest", criar_random_forest),
+]
 
+PASTA_RESULTADOS.mkdir(exist_ok=True)
+resumo = []
 
-def rodar():
-    RESULTADOS.mkdir(exist_ok=True)
-    linhas = []
+for nome_base, carregar in bases:
+    X, y = carregar(PASTA_DADOS)
+    X_treino, X_teste, y_treino, y_teste = dividir(X, y)
 
-    for nome_base, (arquivo, alvo) in BASES.items():
-        X, y = carregar_csv(DATA / arquivo, alvo)
-        # TODO: pré-processamento específico de cada base (nulos, categóricas etc.)
-        X_tr, X_te, y_tr, y_te = dividir(X, y)
+    for nome_modelo, criar in modelos:
+        modelo, hiperparametros = criar()
 
-        for nome_modelo, fabrica in MODELOS.items():
-            modelo, grade = fabrica()
-            busca = GridSearchCV(modelo, grade, cv=5, scoring="f1_macro", n_jobs=-1)
-            busca.fit(X_tr, y_tr)
+        # testa todas as combinações com validação cruzada de 5 folds no treino
+        busca = GridSearchCV(modelo, hiperparametros, cv=5, scoring="f1_macro", n_jobs=-1)
+        busca.fit(X_treino, y_treino)
 
-            # todas as combinações testadas, para a análise de hiperparâmetros
-            pd.DataFrame(busca.cv_results_).to_csv(
-                RESULTADOS / f"grid_{nome_base}_{nome_modelo}.csv", index=False
-            )
+        tabela = pd.DataFrame(busca.cv_results_["params"])
+        tabela["f1_medio"] = busca.cv_results_["mean_test_score"]
+        tabela["desvio"] = busca.cv_results_["std_test_score"]
+        tabela = tabela.sort_values("f1_medio", ascending=False).round(4)
+        tabela.to_csv(PASTA_RESULTADOS / f"hiperparametros_{nome_base}_{nome_modelo}.csv", index=False)
 
-            y_pred = busca.predict(X_te)
-            res = metricas(y_te, y_pred)
-            res.update(base=nome_base, modelo=nome_modelo, params=busca.best_params_)
-            linhas.append(res)
+        # avaliação final no conjunto de teste, que não foi usado até aqui
+        y_previsto = busca.predict(X_teste)
+        metricas = calcular_metricas(y_teste, y_previsto)
+        salvar_matriz_confusao(
+            y_teste, y_previsto,
+            f"{nome_modelo} - {nome_base}",
+            PASTA_RESULTADOS / f"matriz_{nome_base}_{nome_modelo}.png",
+        )
 
-            salvar_matriz_confusao(
-                y_te, y_pred,
-                f"{nome_modelo} - {nome_base}",
-                RESULTADOS / f"cm_{nome_base}_{nome_modelo}.png",
-            )
-            print(f"{nome_base} | {nome_modelo} | f1={res['f1']:.3f}")
+        resumo.append({"base": nome_base, "modelo": nome_modelo, **metricas,
+                       "melhores_hiperparametros": busca.best_params_})
+        print(f"{nome_base} | {nome_modelo} | F1 = {metricas['f1']:.3f}")
 
-    pd.DataFrame(linhas).to_csv(RESULTADOS / "resumo.csv", index=False)
-
-
-if __name__ == "__main__":
-    rodar()
+pd.DataFrame(resumo).round(4).to_csv(PASTA_RESULTADOS / "resumo.csv", index=False)

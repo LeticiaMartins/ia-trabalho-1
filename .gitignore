@@ -7,10 +7,6 @@ venv/
 .idea/
 .DS_Store
 
-# bases grandes ficam fora do git, cada um baixa localmente
-data/*.csv
-!data/exemplo.csv
-
 *.zip
 
 # LaTeX

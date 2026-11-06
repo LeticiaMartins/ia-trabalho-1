@@ -9,23 +9,27 @@ from sklearn.metrics import (
 )
 
 
-def metricas(y_true, y_pred):
-    # macro para não favorecer a classe majoritária em bases desbalanceadas
+def calcular_metricas(y_real, y_previsto):
+    # média macro para não favorecer a classe majoritária
     return {
-        "acuracia": accuracy_score(y_true, y_pred),
-        "precisao": precision_score(y_true, y_pred, average="macro", zero_division=0),
-        "recall": recall_score(y_true, y_pred, average="macro", zero_division=0),
-        "f1": f1_score(y_true, y_pred, average="macro", zero_division=0),
+        "acuracia": accuracy_score(y_real, y_previsto),
+        "precisao": precision_score(y_real, y_previsto, average="macro"),
+        "recall": recall_score(y_real, y_previsto, average="macro"),
+        "f1": f1_score(y_real, y_previsto, average="macro"),
     }
 
 
-def salvar_matriz_confusao(y_true, y_pred, titulo, caminho):
-    cm = confusion_matrix(y_true, y_pred)
-    fig, ax = plt.subplots(figsize=(5, 4))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", ax=ax)
-    ax.set_xlabel("Predito")
-    ax.set_ylabel("Real")
-    ax.set_title(titulo)
-    fig.tight_layout()
-    fig.savefig(caminho, dpi=150)
-    plt.close(fig)
+def salvar_matriz_confusao(y_real, y_previsto, titulo, arquivo):
+    classes = sorted(y_real.unique())
+    matriz = confusion_matrix(y_real, y_previsto, labels=classes)
+
+    plt.figure(figsize=(5, 4))
+    sns.heatmap(matriz, annot=True, fmt="d", cmap="Blues",
+                xticklabels=classes, yticklabels=classes)
+    plt.yticks(rotation=0)
+    plt.xlabel("Previsto")
+    plt.ylabel("Real")
+    plt.title(titulo)
+    plt.tight_layout()
+    plt.savefig(arquivo, dpi=150)
+    plt.close()
