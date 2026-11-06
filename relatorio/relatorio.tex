@@ -97,6 +97,26 @@
 
 \section{Pré-processamento}
 
+Os arquivos originais das duas bases foram mantidos sem alteração. Todas as transformações descritas nesta seção são aplicadas pelo código no momento da leitura dos dados.
+
+\subsection{Wine Quality}
+
+A base Wine Quality é distribuída em dois arquivos, um com 1.599 vinhos tintos e outro com 4.898 vinhos brancos. Os dois foram unidos em um único conjunto de 6.497 amostras, e a classe de cada amostra, \textit{tinto} ou \textit{branco}, foi definida a partir do arquivo de origem.
+
+O atributo \textit{quality} foi descartado. Ele corresponde a uma nota atribuída por avaliadores humanos e não a uma propriedade físico-química do vinho, que é o tipo de informação que se deseja usar na classificação. A base não possui valores ausentes. Após essas etapas, restaram 11 atributos numéricos, com cerca de 25\% de amostras de vinho tinto e 75\% de vinho branco.
+
+\subsection{Palmer Penguins}
+
+Das 344 amostras da base Palmer Penguins, 11 apresentam valores ausentes: duas não possuem nenhuma das medidas corporais e nove não possuem o registro do sexo. Optou-se por remover essas amostras, o que resultou em 333 pinguins, sendo 146 da espécie Adélie, 119 da espécie Gentoo e 68 da espécie Chinstrap.
+
+O atributo \textit{year}, que indica o ano da coleta, foi descartado por não descrever uma característica do animal. Os atributos categóricos \textit{island} e \textit{sex} foram convertidos por codificação \textit{one-hot}, em que cada valor possível passa a ser representado por uma coluna binária. Ao final, a base ficou com quatro medidas numéricas e cinco colunas binárias.
+
+\subsection{Etapas comuns}
+
+Nas duas bases, os dados foram divididos em 80\% para treino e 20\% para teste. A divisão foi estratificada pela classe, de modo que a proporção entre as classes se mantém nos dois conjuntos, e utilizou semente aleatória fixa para garantir a reprodutibilidade.
+
+Para a Rede Neural, os atributos foram padronizados para média zero e desvio padrão unitário. Para evitar vazamento de informação do conjunto de teste para o treinamento (\textit{data leakage}), os parâmetros da padronização são calculados apenas com os dados de treino, inclusive dentro de cada partição da validação cruzada usada na escolha dos hiperparâmetros.
+
 \section{Algoritmos e Hiperparâmetros}
 
 \section{Avaliação}
