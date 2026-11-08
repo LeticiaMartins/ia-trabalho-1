@@ -18,7 +18,6 @@ def carregar_vinhos(pasta):
 def carregar_pinguins(pasta):
     df = pd.read_csv(pasta / "penguins.csv")
 
-    # TODO: o grupo decide se remove ou preenche as linhas com valores faltando
     df = df.dropna()
 
     # year é o ano da coleta, não uma característica do animal
