@@ -14,7 +14,7 @@
 \graphicspath{{figuras/}{../resultados/}}
 
 \titulo{Análise Comparativa de Algoritmos de Classificação}
-\autor{Nome 1 \\ Nome 2 \\ Nome 3}
+\autor{Ana Clara de Lima Saraiva \\ Leticia Martins Bandeira Pascale \\ Guilherme George Amorim Wiesner}
 \local{Santo André}
 \data{2026}
 \instituicao{%
@@ -62,8 +62,9 @@
 \imprimirfolhaderosto
 
 \begin{resumo}
+A classificação é uma das principais tarefas do aprendizado de máquina supervisionado. Este trabalho compara o desempenho de uma Rede Neural Artificial do tipo Multilayer Perceptron (MLP) e do algoritmo Random Forest em duas bases públicas com características distintas: Wine Quality, em que se busca distinguir vinhos tintos e brancos a partir de atributos físico-químicos, e Palmer Penguins, em que se busca identificar a espécie de pinguins a partir de medidas corporais, da ilha e do sexo. Após o pré-processamento, os dados foram divididos em conjuntos de treino e teste, e os hiperparâmetros de cada modelo foram selecionados por busca em grade com validação cruzada de cinco partições, utilizando o F1 macro como critério. No conjunto de teste, o Random Forest obteve F1 macro de 0,9969 na base de vinhos e 1,0000 na base de pinguins, enquanto a MLP obteve 0,9959 e 0,9827, respectivamente. Os dois modelos apresentaram desempenho muito próximo, e as variações de hiperparâmetros testadas produziram diferenças menores que a variação observada entre as partições da validação cruzada. Conclui-se que, nas bases utilizadas, as classes são separáveis o suficiente para que ambos os algoritmos alcancem desempenho elevado, o que limita a diferenciação entre eles.
 
-\textbf{Palavras-chave}: .
+\textbf{Palavras-chave}: Aprendizado de Máquina Supervisionado. Random Forest. Redes Neurais Artificiais. Avaliação de desempenho.  
 \end{resumo}
 
 \pdfbookmark[0]{\listfigurename}{lof}
@@ -82,19 +83,69 @@
 
 \chapter{Introdução}
 
+A classificação é uma tarefa dentro do contexto de aprendizado de máquina supervisionado \cite{faceli2021inteligencia}, onde o modelo aprende, com base em exemplos com classes conhecidas, a identificar a classe de novos dados. Existem diversos algoritmos de classificação, e é importante aplicá-los e compará-los para compreendermos como cada método utiliza os dados e quais são as vantagens e limitações apresentadas por cada método.
+
+O objetivo deste trabalho é comparar o desempenho de uma Rede Neural Artificial do tipo Multilayer Perceptron (MLP) e o algoritmo Random Forest \cite{breiman2001random}. As bases selecionadas foram: \textit{Wine Quality} \cite{cortez2009modeling}, onde buscamos distinguir vinhos tintos e brancos a partir de características físico-químicas, e \textit{Palmer Penguins} \cite{horst2022palmer}, onde buscamos identificar três espécies de pinguins utilizando medidas corporais. Para a comparação, consideramos métricas como acurácia, precisão, F1-score e matrizes de confusão, além da investigação do impacto da variação de hiperparâmetros.
+
+O texto está estruturado com base no referencial teórico, metodologia, resultados e conclusão. O referencial apresenta os conceitos e algoritmos utilizados. A metodologia descreve as bases, o pré-processamento e as configurações dos experimentos. Em seguida, são apresentados e discutidos os resultados. Por fim, a conclusão retoma o objetivo e aponta as principais observações e limitações do estudo.
+ 
 \chapter{Referencial Teórico}
 
 \section{Aprendizado de Máquina Supervisionado}
 
+O aprendizado de máquina supervisionado utiliza exemplos com respostas conhecidas para aprender relações entre características de entrada e resultados esperados. Quando essas respostas correspondem a categorias, a tarefa é denominada classificação. O objetivo é construir um modelo capaz de identificar a classe de novos exemplos, além daqueles utilizados durante o treinamento \cite{faceli2021inteligencia}.
+
+Neste trabalho, são considerados dois problemas de classificação. Na base de vinhos, busca-se identificar se uma amostra corresponde a vinho tinto ou branco a partir de suas características físico-químicas. Na base de pinguins, o objetivo é identificar a espécie com base nas informações disponíveis sobre cada animal. O primeiro problema é binário, pois apresenta duas classes, enquanto o segundo é multiclasse, com três classes.
+
+Diferentes algoritmos podem realizar essas tarefas, mas nenhum método apresenta necessariamente o melhor desempenho em todos os problemas. Por esse motivo, é importante comparar suas características e avaliar seus resultados em diferentes conjuntos de dados \cite{faceli2021inteligencia}. Neste estudo, foram selecionados a Rede Neural Artificial do tipo MLP e o Random Forest.
+
 \section{Redes Neurais Artificiais}
+
+As Redes Neurais Artificiais são modelos computacionais formados por unidades de processamento interligadas, denominadas neurônios artificiais. Cada neurônio recebe valores de entrada, multiplica esses valores por pesos e soma os resultados a um termo chamado bias. Em seguida, uma função de ativação transforma essa soma na saída do neurônio \cite{haykin2009neural}.
+
+Os pesos controlam a contribuição de cada entrada para o resultado. O bias permite deslocar a soma ponderada, ampliando a flexibilidade do modelo. Durante o treinamento, esses parâmetros são ajustados para que a rede aprenda as relações entre as características fornecidas e as respostas esperadas.
+
+A arquitetura utilizada neste trabalho é o Multilayer Perceptron (MLP), composta por uma camada de entrada, uma ou mais camadas ocultas e uma camada de saída. As informações percorrem essas camadas até que a rede produza uma previsão. A utilização de funções de ativação não lineares nas camadas ocultas permite representar relações mais complexas entre os atributos \cite{haykin2009neural}.
+
+Foram consideradas as funções de ativação ReLU e tangente hiperbólica. A ReLU retorna zero para valores negativos e mantém os valores positivos, enquanto a tangente hiperbólica produz saídas entre $-1$ e $1$.
+
+O treinamento envolve a comparação entre as previsões e as respostas esperadas por meio de uma função de perda. O algoritmo de retropropagação, ou backpropagation, calcula como essa perda varia em relação aos pesos e biases. Essas informações são utilizadas pelo otimizador para atualizar os parâmetros, buscando reduzir a perda ao longo do treinamento \cite{haykin2009neural}.
+
+Uma das vantagens da MLP é sua capacidade de aprender relações não lineares. Entretanto, seu desempenho depende de configurações como o número de camadas, a quantidade de neurônios e a taxa de aprendizado. O modelo também é sensível à escala dos atributos, tornando a padronização das entradas uma etapa importante de sua preparação \cite{pedregosa2011scikit}.
 
 \section{Random Forest}
 
+O Random Forest é um algoritmo de aprendizado supervisionado que combina diversas árvores de decisão. Cada árvore aprende regras que dividem os dados de acordo com suas características, formando caminhos que levam a uma previsão. Ao reunir várias árvores, o método busca produzir resultados mais estáveis do que aqueles obtidos por uma árvore isolada \cite{breiman2001random}.
+
+Na construção usual da floresta, cada árvore é treinada com uma amostra sorteada com reposição do conjunto de treinamento. Nesse procedimento, um mesmo exemplo pode ser selecionado mais de uma vez. Além disso, cada divisão considera um subconjunto aleatório dos atributos disponíveis. Esses mecanismos introduzem diversidade entre as árvores e contribuem para reduzir a dependência entre suas previsões \cite{breiman2001random}.
+
+Na implementação do scikit-learn, as probabilidades estimadas pelas árvores são combinadas por meio de uma média. A classe com a maior probabilidade média é selecionada como resposta final do modelo \cite{pedregosa2011scikit}.
+
+Entre suas vantagens estão a capacidade de representar relações não lineares e a menor dependência da padronização dos atributos. Como limitações, o aumento da quantidade e da profundidade das árvores pode elevar o consumo de memória e o tempo de processamento. A interpretação do conjunto também é mais complexa do que a análise de uma única árvore de decisão.
+
+Portanto, MLP e Random Forest apresentam abordagens distintas para a classificação. A primeira ajusta pesos em uma rede de neurônios, enquanto o segundo combina previsões de árvores de decisão. A comparação experimental permite avaliar como essas diferenças influenciam o desempenho em cada base.
+
 \section{Métricas de Avaliação}
+
+A avaliação de um classificador compara as classes previstas com as classes reais dos exemplos. A matriz de confusão organiza essas contagens, permitindo identificar os acertos e as confusões entre as classes. Considerando as classes reais nas linhas e as previstas nas colunas, os elementos da diagonal principal representam as classificações corretas \cite{pedregosa2011scikit}.
+
+A acurácia corresponde à proporção total de exemplos classificados corretamente. Embora seja uma medida simples de interpretar, pode esconder dificuldades na identificação de classes menos frequentes. Por isso, sua análise deve ser acompanhada de outras métricas e da matriz de confusão.
+
+A precisão indica, entre os exemplos previstos como pertencentes a determinada classe, quantos realmente pertencem a ela. A revocação, também chamada de recall, indica quantos exemplos reais dessa classe foram identificados pelo modelo. Já o F1-score combina precisão e revocação por meio da média harmônica, considerando os dois aspectos na avaliação \cite{pedregosa2011scikit}.
+
+Neste trabalho, precisão, revocação e F1-score são apresentados pela média macro. Nesse procedimento, cada métrica é calculada separadamente para cada classe e, em seguida, é obtida a média aritmética dos resultados. Dessa forma, todas as classes recebem o mesmo peso, independentemente da quantidade de exemplos que possuem.
+
+A utilização conjunta dessas medidas permite avaliar o desempenho geral dos modelos e identificar diferenças no reconhecimento de cada classe, contribuindo para uma comparação mais completa entre os algoritmos.
 
 \chapter{Metodologia}
 
 \section{Bases de Dados}
+
+Neste trabalho, foram utilizadas as bases Wine Quality \cite{cortez2009modeling} e Palmer Penguins \cite{horst2022palmer} para comparar o desempenho de uma rede neural artificial e do algoritmo Random Forest em dois problemas de classificação.
+
+A base Wine Quality, disponibilizada no repositório UCI Machine Learning Repository, reúne características físico-químicas de vinhos tintos e brancos, como acidez, densidade, pH e teor alcoólico. Neste trabalho, essas características foram utilizadas para classificar as amostras entre os dois tipos de vinho.
+
+A base Palmer Penguins reúne informações de pinguins das espécies Adelie, Chinstrap e Gentoo. Entre as características disponíveis estão medidas do bico, comprimento da nadadeira, massa corporal, ilha e sexo. O objetivo foi utilizar essas informações para identificar a espécie de cada indivíduo.
 
 \section{Pré-processamento}
 
@@ -120,7 +171,11 @@ Para a Rede Neural, os atributos foram padronizados para média zero e desvio pa
 
 \section{Algoritmos e Hiperparâmetros}
 
-\begin{table}[htb]
+Foram utilizados dois algoritmos de classificação: uma rede neural artificial do tipo MLP e o Random Forest. Ambos foram aplicados às duas bases de dados, permitindo comparar seus desempenhos em cada problema.
+
+Para a rede neural, foram avaliadas diferentes quantidades de neurônios e configurações de camadas ocultas, além das funções de ativação ReLU e tangente hiperbólica. Também foram variados a taxa de aprendizado e o parâmetro de regularização, que influencia o controle da complexidade do modelo. Para o Random Forest, foram avaliados diferentes números de árvores e limites de profundidade. Esses parâmetros permitem analisar como a quantidade e a complexidade das árvores influenciam o desempenho da classificação, conforme apresentado na Tabela~\ref{tab:hiperparametros-testados}.
+
+\begin{table}[H]
   \centering
   \caption{Hiperparâmetros testados para cada algoritmo}
   \label{tab:hiperparametros-testados}
@@ -140,7 +195,11 @@ Para a Rede Neural, os atributos foram padronizados para média zero e desvio pa
   \fonte{Elaborado pelos autores.}
 \end{table}
 
+A seleção dos hiperparâmetros foi realizada com o GridSearchCV, que avaliou as combinações apresentadas na tabela por meio de validação cruzada no conjunto de treinamento. O F1 macro foi utilizado como critério de seleção, atribuindo a mesma importância a cada classe. O conjunto de teste foi reservado para a avaliação final dos modelos selecionados.
+
 \section{Avaliação}
+
+A avaliação quantitativa do desempenho preditivo dos modelos otimizados foi realizada sobre o conjunto de teste independente (20\% dos dados), utilizando as métricas de Acurácia, Precisão macro, Revocação macro e F1-Score macro, além da análise detalhada das Matrizes de Confusão para examinar o comportamento dos erros em cada classe.
 
 \chapter{Resultados}
 
@@ -208,9 +267,27 @@ Para a Rede Neural, os atributos foram padronizados para média zero e desvio pa
 
 \section{Discussão}
 
+A análise conjunta dos experimentos nas duas bases permite estabelecer uma comparação crítica fundamentada entre a Rede Neural MLP e o \textit{Random Forest}:
+\begin{enumerate}
+  \item \textbf{Adequação da Arquitetura ao Volume de Dados:} Os experimentos sugerem uma relação entre a complexidade da MLP e o tamanho da base. Em \textit{Wine Quality} (5.197 exemplos de treino), a melhor combinação na validação cruzada utilizou duas camadas ocultas \texttt{(64, 32)} e regularização mais alta ($\alpha = 0{,}01$), configuração compatível com a modelagem de interações físico-químicas não lineares entre os 11 atributos contínuos. Em contrapartida, em \textit{Palmer Penguins} (266 exemplos de treino), a arquitetura menor \texttt{(16,)} com regularização mínima ($\alpha = 0{,}0001$) foi a melhor escolha na validação cruzada, e as médias apresentadas na Figura~\ref{fig:hiperparametros-pinguins} indicam queda de desempenho com o aumento da rede e com o uso de passos de aprendizado maiores (\texttt{learning\_rate\_init = 0.01}), comportamento esperado para redes superparametrizadas em bases pequenas. Entretanto, essas diferenças devem ser interpretadas com cautela. Em \textit{Wine Quality}, o F1 médio das 24 combinações variou entre 0,9927 e 0,9943, intervalo menor que o desvio padrão entre as partições da validação cruzada, de cerca de 0,002. Em \textit{Palmer Penguins}, variou entre 0,9864 e 1,0000, com desvio próximo de 0,009. Assim, os resultados indicam uma tendência, mas não permitem afirmar que uma configuração seja de fato superior às demais.
+  \item \textbf{Natureza das Variáveis e Fronteiras de Decisão:} Na base \textit{Palmer Penguins}, a combinação de variáveis binárias (\textit{island} e \textit{sex}) com limiares morfológicos bem demarcados (por exemplo, a espécie \textit{Gentoo} habita exclusivamente a ilha Biscoe na amostra e apresenta maior massa corporal e nadadeira, enquanto \textit{Chinstrap} concentra-se na ilha Dream com bicos mais longos) favorece diretamente a estrutura de regras hierárquicas ortogonais do \textit{Random Forest}, que atingiu 100\% de acerto no teste. A MLP precisou aproximar essas divisões lógicas discretas por meio de funções contínuas ($\tanh$), incorrendo em apenas um erro limítrofe entre \textit{Adélie} e \textit{Chinstrap}.
+  \item \textbf{Interpretação das Matrizes de Confusão em Wine Quality:} Dos 1.300 vinhos do conjunto de teste (980 brancos e 320 tintos), a MLP classificou incorretamente quatro amostras: três vinhos brancos previstos como tintos e um tinto previsto como branco. O \textit{Random Forest} errou três amostras, sendo um branco previsto como tinto e dois tintos previstos como brancos (Figura~\ref{fig:matriz-vinhos}). A diferença entre os modelos corresponde, portanto, a um único exemplo, o que é compatível com a proximidade dos valores de F1 na Tabela~\ref{tab:desempenho}. Os erros da MLP concentraram-se na classe majoritária, reduzindo sua precisão para a classe tinto, enquanto os do \textit{Random Forest} ocorreram principalmente na classe minoritária, reduzindo sua revocação para essa classe. Esse comportamento aparece na Tabela~\ref{tab:desempenho}: a MLP apresenta precisão (0,9948) menor que revocação (0,9969), enquanto no \textit{Random Forest} ocorre o inverso (0,9974 e 0,9964).
+  \item \textbf{Estabilidade e Custo de Ajuste:} Enquanto a MLP dependeu da padronização via \texttt{StandardScaler} e apresentou maior variação entre as combinações de taxa de aprendizado, arquitetura e regularização, especialmente em \textit{Palmer Penguins}, onde o F1 médio na validação cruzada variou entre 0,9864 e 1,0000, o \textit{Random Forest} mostrou-se mais estável em toda a grade: na validação cruzada de vinhos, o F1 médio variou apenas entre 0,9909 e 0,9922 nas 6 configurações, e em pinguins entre 0,9919 (100 árvores) e 0,9951 (300 árvores), sem nenhuma alteração causada pela profundidade máxima nessa base. Ainda assim, as variações dos dois modelos ficaram na mesma ordem de grandeza do desvio padrão entre as partições da validação cruzada, que em \textit{Palmer Penguins} foi de cerca de 0,009 para a MLP e 0,010 para o \textit{Random Forest}. Isso indica que ambos foram pouco sensíveis aos hiperparâmetros avaliados nessas bases. A diferença mais clara entre eles está no custo de ajuste, já que o \textit{Random Forest} alcançou resultados equivalentes sem exigir a padronização dos atributos.
+\end{enumerate}
+
 \chapter{Conclusão}
 
+Este trabalho realizou um estudo experimental comparativo entre uma Rede Neural Artificial (\textit{Multilayer Perceptron}) e o algoritmo \textit{Random Forest} em duas tarefas de classificação com características distintas: a distinção físico-química binária e desbalanceada de vinhos (\textit{Wine Quality}) e a identificação taxonômica multiclasse de espécies de pinguins (\textit{Palmer Penguins}).
+
+Para isso, as duas bases passaram por um pré-processamento que incluiu a remoção de atributos não relacionados ao problema, o tratamento de valores ausentes e a codificação de variáveis categóricas. Os dados foram divididos em 80\% para treino e 20\% para teste, e os hiperparâmetros de cada modelo foram selecionados por validação cruzada no conjunto de treino, com o F1 macro como critério. O conjunto de teste foi utilizado apenas na avaliação final.
+
+Cumprindo o protocolo metodológico, ambos os algoritmos obtiveram desempenho de excelência. O \textit{Random Forest} destacou-se pela robustez imediata e capacidade de lidar nativamente com atributos mistos (contínuos e indicadores binários de \textit{one-hot encoding}), alcançando 99,69\% de F1 macro nos vinhos e 100\% nos pinguins. A MLP demonstrou capacidade preditiva praticamente equivalente (99,59\% de F1 macro nos vinhos e 98,27\% nos pinguins). A variação de seus hiperparâmetros indicou uma tendência de redes menores apresentarem melhor desempenho na base com menos amostras, ainda que as diferenças observadas tenham ficado dentro da variação entre as partições da validação cruzada.
+
+De forma geral, os resultados indicam que as duas bases apresentam classes bem separadas pelos atributos disponíveis, o que permitiu desempenho elevado aos dois algoritmos e reduziu as diferenças entre eles. Na base de vinhos, a diferença entre os modelos foi de um único exemplo no conjunto de teste. Além disso, as variações no F1 médio entre as combinações de hiperparâmetros foram menores que o desvio padrão entre as partições da validação cruzada, de modo que não é possível afirmar que uma configuração seja superior às demais. Como limitações, destacam-se o uso de uma única divisão entre treino e teste, a grade reduzida de hiperparâmetros e a escolha de bases com baixa dificuldade de classificação. Trabalhos futuros podem utilizar bases mais desafiadoras, como a previsão da nota de qualidade dos vinhos, repetir os experimentos com diferentes divisões dos dados e ampliar a faixa de hiperparâmetros avaliados.
+
 \chapter{Transparência no Uso de IA Generativa}
+
+Declaramos que ferramentas de Inteligência Artificial Generativa foram utilizadas como suporte na estruturação do repositório base, na revisão textual e no auxílio ao desenvolvimento e organização do código-fonte e do template \LaTeX\ (padrão abnTeX2). A definição do protocolo experimental, a escolha das abordagens, a execução dos algoritmos e a validação crítica de todos os resultados foram conduzidas pelos integrantes do grupo.
 
 \postextual
 
