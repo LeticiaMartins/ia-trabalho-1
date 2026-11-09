@@ -104,7 +104,7 @@ def tabela_melhores_hiperparametros():
     (PASTA_TABELAS / "melhores_hiperparametros.tex").write_text(texto + "\n")
 
 
-PASTA_TABELAS.mkdir(exist_ok=True)
+PASTA_TABELAS.mkdir(parents=True, exist_ok=True)
 for nome_base in NOMES_BASES:
     grafico_hiperparametros_mlp(nome_base)
 tabela_desempenho()
